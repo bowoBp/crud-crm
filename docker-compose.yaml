@@ -1,0 +1,19 @@
+version: '3'
+services:
+  web:
+    image: api-crud:latest
+    ports:
+      - 8081:8081
+    depends_on:
+      - db
+    environment:
+      - DB_HOST=db
+      - DB_PORT=3307
+      - DB_USER=root
+      - DB_PASSWORD=Tkjcenter313
+      - DB_NAME=bricorp
+  db:
+    image: mysql:latest
+    environment:
+      - MYSQL_ROOT_PASSWORD=Tkjcenter313
+      - MYSQL_DATABASE=bricorp

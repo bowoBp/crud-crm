@@ -1,0 +1,207 @@
+definitions:
+  dto.ErrorResponse:
+    properties:
+      data: {}
+      errors: {}
+      message:
+        type: string
+      messageTitle:
+        type: string
+      responseTime:
+        type: string
+      success:
+        type: boolean
+    type: object
+  dto.ResponseMeta:
+    properties:
+      message:
+        type: string
+      messageTitle:
+        type: string
+      responseTime:
+        type: string
+      success:
+        type: boolean
+    type: object
+  entity.User:
+    properties:
+      createdAt:
+        type: string
+      email:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      password:
+        type: string
+      updatedAt:
+        type: string
+      user_id:
+        type: string
+    type: object
+  user.FindUser:
+    properties:
+      data:
+        $ref: '#/definitions/entity.User'
+      message:
+        type: string
+      messageTitle:
+        type: string
+      responseTime:
+        type: string
+      success:
+        type: boolean
+    type: object
+  user.UserParam:
+    properties:
+      email:
+        type: string
+      name:
+        type: string
+      password:
+        type: string
+    type: object
+host: localhost:8081
+info:
+  contact:
+    email: bowo_bp@outlook.com
+    name: API Support
+  description: Swagger API for Golang Project Blueprint.
+  title: API Documentation
+  version: 1.0.0
+paths:
+  /user/:
+    post:
+      consumes:
+      - application/json
+      description: Create new user
+      parameters:
+      - description: User Data
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/user.UserParam'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/user.UserParam'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+      summary: Create User based on parameter
+      tags:
+      - Users
+  /user/{email}:
+    delete:
+      description: Delete User by email
+      parameters:
+      - description: User Email
+        in: path
+        name: email
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.ResponseMeta'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+      summary: Delete User
+      tags:
+      - Users
+  /user/{id}:
+    get:
+      description: get user by ID
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/user.FindUser'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Get one user
+      tags:
+      - Users
+    put:
+      consumes:
+      - application/json
+      description: Create new user
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: User Data
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/user.UserParam'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/user.UserParam'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+      summary: Create User based on parameter
+      tags:
+      - Users
+securityDefinitions:
+  ApiKeyAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"
